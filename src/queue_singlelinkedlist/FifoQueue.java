@@ -40,6 +40,10 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 		return size;
 	}
 
+	public QueueNode<E> getLast() {
+		return last;
+	}
+
 	/**
 	 * Retrieves, but does not remove, the head of this queue,
 	 * returning null if this queue is empty
@@ -73,6 +77,26 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 			last.next = last.next.next;
 			size --;
 			return e;
+		}
+	}
+
+	public void append(FifoQueue<E> q) {
+		if(q == this){
+			throw new IllegalArgumentException();
+		} else if (size == 0 && q.size == 0) {
+				return;
+		} else if (size == 0 && q.size > 0) {
+			last = q.last;
+			size = q.size();
+		} else if (size > 0 && q.size == 0) {
+			return;
+		} else {
+		//Move pointers last from both this and q
+		size = size + q.size();
+		QueueNode<E> temp = last.next;
+		last.next = q.last.next;
+		q.last.next = temp;
+		last = q.last;
 		}
 	}
 
@@ -114,10 +138,8 @@ public class FifoQueue<E> extends AbstractQueue<E> implements Queue<E> {
 		public E next() {
 			if (pos == null) {
 				throw new NoSuchElementException();
-			} else if (!hasNext()) {
-					E e = pos.element;
-					pos = null;
-					return e;
+			}	else if (!hasNext()) {
+				throw new NoSuchElementException();
 			} else {
 				hasStarted = true;
 				E e = pos.element;
