@@ -153,11 +153,8 @@ public class TestFifoQueue {
 			myIntQueue.offer(i);
 		}
 		Iterator<Integer> itr = myIntQueue.iterator();
-		System.out.println(itr.hasNext());
 		assertTrue("Wrong result from hasNext", itr.hasNext());
 		for (int i = 1; i <= nbr; i++) {
-			System.out.println(itr.hasNext());
-			System.out.println(i);
 			assertTrue("Wrong result from hasNext", itr.hasNext());
 			assertEquals("Wrong result from next", Integer.valueOf(i), itr.next());
 		}
